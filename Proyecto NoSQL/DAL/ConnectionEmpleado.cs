@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class ConnectionCliente
+    public class ConnectionEmpleado
     {
         private readonly MongoClient client = new MongoClient("mongodb+srv://root:root@myatlascluster-wregg.gcp.mongodb.net/VEPA?retryWrites=true&w=majority");
         private IMongoDatabase dataBase = null;
-        private IMongoCollection<Cliente> collectionCliente = null;
+        private IMongoCollection<Empleado> collectionEmpleado = null;
 
-        public ConnectionCliente()
+        public ConnectionEmpleado()
         {
             dataBase = client.GetDatabase("VEPA");
-            collectionCliente = dataBase.GetCollection<Cliente>("cliente");
+            collectionEmpleado = dataBase.GetCollection<Empleado>("Empleado");
         }
 
-        public Boolean insertCliente(Cliente newCliente)
+        public Boolean insertEmpleado(Empleado newEmpleado)
         {
             try
             {
-                collectionCliente.InsertOne(newCliente);
+                collectionEmpleado.InsertOne(newEmpleado);
                 return true;
             }
             catch
@@ -33,11 +33,11 @@ namespace DAL
             }
         }
 
-        public Cliente GetByIdentificacion(String identificacion)
+        public Empleado GetByIdentificacion(String identificacion)
         {
             try
             {
-                return collectionCliente.Find(s => s.identificacion == identificacion).FirstOrDefault();
+                return collectionEmpleado.Find(s => s.identificacion == identificacion).FirstOrDefault();
             }
             catch
             {
@@ -45,11 +45,11 @@ namespace DAL
             }
         }
 
-        public List<Cliente> GetByIdCliente(long id)
+        public List<Empleado> GetByIdEmpleado(long id)
         {
             try
             {
-                return collectionCliente.Find(s => s.idCliente == id).ToList();
+                return collectionEmpleado.Find(s => s.idEmpleado == id).ToList();
             }
             catch
             {
@@ -57,11 +57,11 @@ namespace DAL
             }
         }
 
-        public List<Cliente> GetAll()
+        public List<Empleado> GetAll()
         {
             try
             {
-                return collectionCliente.Find(_ => true).ToList();
+                return collectionEmpleado.Find(_ => true).ToList();
             }
             catch
             {

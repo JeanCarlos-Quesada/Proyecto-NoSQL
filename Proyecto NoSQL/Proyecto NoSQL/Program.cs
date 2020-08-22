@@ -12,8 +12,8 @@ namespace Proyecto_NoSQL
     {
         static void Main(string[] args)
         {
-            ConnectionCliente connectionCliente = new ConnectionCliente();
-            connectionCliente.GetByIdentificacion("305170596");
+            ConnectionPedido connectionPedido = new ConnectionPedido();
+            connectionPedido.GroupByEmpleado();
         }
     }
 }

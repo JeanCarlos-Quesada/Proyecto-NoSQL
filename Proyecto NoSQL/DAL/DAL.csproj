@@ -105,6 +105,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionCliente.cs" />
+    <Compile Include="ConnectionEmpleado.cs" />
+    <Compile Include="ConnectionPedido.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
