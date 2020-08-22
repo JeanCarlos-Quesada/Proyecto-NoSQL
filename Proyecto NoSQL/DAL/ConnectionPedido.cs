@@ -25,6 +25,8 @@ namespace DAL
         {
             try
             {
+                var ultimoId = GetAll().LastOrDefault().idPedido;
+                newPedido.idPedido = ultimoId + 1;
                 collectionPedido.InsertOne(newPedido);
                 return true;
             }
@@ -38,11 +40,11 @@ namespace DAL
         {
             try
             {
-                return collectionPedido.Find(s => s.fechaInicio.ToString("dd/MM/yyyy") == fechaInicio.ToString("dd/MM/yyyy")).ToList();
+                return collectionPedido.Find(s => s.fechaInicio == (fechaInicio.AddHours(-6))).ToList();
             }
             catch
             {
-                return null;
+                return new List<Pedido>();
             }
         }
 
@@ -50,11 +52,14 @@ namespace DAL
         {
             try
             {
-                return collectionPedido.Find(s => s.idPedido == id).ToList();
+                var tmp = collectionPedido.Find(s => s.idPedido == id).FirstOrDefault();
+                List<Pedido> pedidos = new List<Pedido>();
+                pedidos.Add(tmp);
+                return pedidos;
             }
             catch
             {
-                return null;
+                return new List<Pedido>();
             }
         }
 
@@ -66,7 +71,7 @@ namespace DAL
             }
             catch
             {
-                return null;
+                return new List<Pedido>();
             }
         }
 
@@ -88,7 +93,7 @@ namespace DAL
             }
             catch
             {
-                return null;
+                return new List<String>();
             }
         }
     }

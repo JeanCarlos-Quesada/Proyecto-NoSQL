@@ -12,6 +12,9 @@ namespace Proyecto_NoSQL
     {
         private ConnectionCliente connectionCliente = new ConnectionCliente();
         private ConnectionEmpleado connectionEmpleado = new ConnectionEmpleado();
+        private ConnectionVehiculo connectionVehiculo = new ConnectionVehiculo();
+        private ConnectionPedido connectionPedido = new ConnectionPedido();
+
         public Worker()
         {
             var laOpcion = string.Empty;
@@ -95,10 +98,67 @@ namespace Proyecto_NoSQL
                         }
                         break;
                     case "3":
-
+                        DesplegarMenuVehiculo();
+                        laOpcion = LeaLaOpcion();
+                        switch (laOpcion)
+                        {
+                            case "1":
+                                GetAllVehiculos();
+                                break;
+                            case "2":
+                                Console.WriteLine("Digite le ID del vehiculo:");
+                                long idVehiculo = long.Parse(Console.ReadLine());
+                                GetVehiculoById(idVehiculo);
+                                break;
+                            case "3":
+                                Console.WriteLine("Digite la fecha de inicio (dd/mm/yyyy):");
+                                String fecha = Console.ReadLine();
+                                GetPedidosByFechaInicio(fecha);
+                                break;
+                            case "4":
+                                Console.WriteLine("Digite la marca:");
+                                String marca = Console.ReadLine();
+                                GetVehiculoByMarca(marca);
+                                break;
+                            case "5":
+                                Console.WriteLine("Digite el año:");
+                                String year = Console.ReadLine();
+                                GetVehiculoByYear(year);
+                                break;
+                            case "6":
+                                //Insert
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case "4":
-
+                        DesplegarMenuPedido();
+                        laOpcion = LeaLaOpcion();
+                        switch (laOpcion)
+                        {
+                            case "1":
+                                GetAllPedidos();
+                                break;
+                            case "2":
+                                Console.WriteLine("Digite le ID del pedido:");
+                                long idPedido = long.Parse(Console.ReadLine());
+                                GetPedidoById(idPedido);
+                                break;
+                            case "3":
+                                Console.WriteLine("Digite la fecha de inicio (dd/mm/yyyy):");
+                                String fecha = Console.ReadLine();
+                                GetPedidosByFechaInicio(fecha);
+                                break;
+                            case "4":
+                                GroupByEmpleado();
+                                break;
+                            case "5":
+                                //Insert
+                                break;
+                            default:
+                                break;
+                        }
                         break;       
                     default:
                         break;
@@ -252,6 +312,195 @@ namespace Proyecto_NoSQL
 
         #endregion empleado
 
+        #region Vehiculo
+        public void GetAllVehiculos()
+        {
+            var vehiculos = connectionVehiculo.GetAll().OrderBy(s => s.idVehiculo).ToList();
+            if (vehiculos != null)
+            {
+                imprimirVehiculo(vehiculos);
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron vehiculos");
+            }
+        }
+
+        public void GetVehiculoById(long idVehiculo)
+        {
+            var vehiculos = connectionVehiculo.GetByidVehiculo(idVehiculo).OrderBy(s => s.idVehiculo).ToList();
+            if (vehiculos != null)
+            {
+                imprimirVehiculo(vehiculos);
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron vehiculos");
+            }
+        }
+
+        public void GetVehiculoByMarca(String marca)
+        {
+            var vehiculos = connectionVehiculo.GetByMarca(marca).OrderBy(s => s.idVehiculo).ToList();
+            if (vehiculos != null)
+            {
+                imprimirVehiculo(vehiculos);
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron vehiculos");
+            }
+        }
+
+        public void GetVehiculoByYear(String year)
+        {
+            var vehiculos = connectionVehiculo.GetByYearModelo(year).OrderBy(s => s.idVehiculo).ToList();
+            if (vehiculos != null)
+            {
+                imprimirVehiculo(vehiculos);
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron vehiculos");
+            }
+        }
+
+        public void InsertVehiculo(Vehiculo vehiculo)
+        {
+            var logrado = connectionVehiculo.insertVehiculo(vehiculo);
+            if (logrado)
+            {
+                Console.WriteLine("\nEl vehículo se agrego correctamente \n");
+                var tmp = connectionVehiculo.GetAll().LastOrDefault();
+                List<Vehiculo> aux = new List<Vehiculo>();
+                aux.Add(tmp);
+                imprimirVehiculo(aux);
+            }
+            else
+            {
+                Console.WriteLine("No se logro agregar el vehículo");
+            }
+        }
+
+        public void imprimirVehiculo(List<Vehiculo> vehiculos)
+        {
+            if (vehiculos.Count != 0)
+            {
+                foreach (var vehiculo in vehiculos)
+                {
+                    Console.WriteLine(String.Format("ID del vehiculo: {0}\nFecha de Ingreso: {1}\nIdentificación Empleado: {2}\nMarca: {3}\nModelo: {4}" +
+                        "\nAño: {5}\nDefectos: {6}\n",
+                        vehiculo.idVehiculo, vehiculo.fechaIngreso.ToString("dd/MM/yyyy"), vehiculo.RegistardoPor.identificacion, vehiculo.Modelo.marcaVehiculo
+                        , vehiculo.Modelo.modeloVehiculo, vehiculo.Modelo.yearModelo, "Defectos: \n"+String.Join("\n",vehiculo.Defectos)));
+                }
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron empleados");
+            }
+        }
+
+        #endregion Vehiculo
+
+        #region Pedido
+        public void GetAllPedidos()
+        {
+            var pedidos = connectionPedido.GetAll().OrderBy(s => s.idPedido).ToList();
+            if (pedidos != null)
+            {
+                imprimirPedido(pedidos);
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron pedidos");
+            }
+        }
+
+        public void GetPedidoById(long idPedido)
+        {
+            var pedidos = connectionPedido.GetByIdPedido(idPedido).OrderBy(s => s.idPedido).ToList();
+            if (pedidos != null)
+            {
+                imprimirPedido(pedidos);
+            }
+            else
+            {
+                Console.WriteLine("No se encontro el pedido");
+            }
+        }
+
+        public void GetPedidosByFechaInicio(String fecha)
+        {
+            int day = Int32.Parse(fecha[0]+""+fecha[1]);
+            int month = Int32.Parse(fecha[3]+""+fecha[4]);
+            int year = Int32.Parse(fecha[6]+""+fecha[7]+""+fecha[8] + "" + fecha[9]);
+            DateTime date = new DateTime(year, month, day);
+            var pedidos = connectionPedido.GetByFechaInicio(date).OrderBy(s => s.idPedido).ToList();
+            if (pedidos != null)
+            {
+                imprimirPedido(pedidos);
+            }
+            else
+            {
+                Console.WriteLine("No se encontron el pedidos");
+            }
+        }
+
+        public void GroupByEmpleado()
+        {
+            var groupBy = connectionPedido.GroupByEmpleado();
+            if (groupBy != null)
+            {
+                if (groupBy.Count != 0)
+                {
+                    Console.WriteLine(String.Join("\n",groupBy));
+                }
+                else
+                {
+                    Console.WriteLine("No se encontron el pedidos");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No se encontron el pedidos");
+            }
+        }
+
+        public void InsertPedido(Pedido pedido)
+        {
+            var logrado = connectionPedido.insertPedido(pedido);
+            if (logrado)
+            {
+                Console.WriteLine("\nEl pedido se agrego correctamente \n");
+                var tmp = connectionPedido.GetByIdPedido(pedido.idPedido).OrderBy(s => s.idPedido).ToList();
+                imprimirPedido(tmp);
+            }
+            else
+            {
+                Console.WriteLine("No se logro agregar el pedido");
+            }
+        }
+
+        public void imprimirPedido(List<Pedido> pedidos)
+        {
+            if (pedidos.Count != 0)
+            {
+                foreach (var pedido in pedidos)
+                {
+                    Console.WriteLine(String.Format("ID del pedido: {0}\nIdentificación Cliente: {1}\nIdentificación Empleado: {2}\nFecha de Inicio: {3}\nFecha de Finalización: {4}" +
+                        "\nMarca del Vehículo: {5}\nModelo del Vehículo: {6}\nEstado: {7}\n",
+                        pedido.idPedido, pedido.cliente.identificacion, pedido.empleado.identificacion, pedido.fechaInicio.ToString("dd/MM/yyyy"), pedido.fechaFinalizacion.ToString("dd/MM/yyyy"), 
+                        pedido.marcaVehiculo, pedido.modeloVehiculo, pedido.estado));
+                }
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron empleados");
+            }
+        }
+
+        #endregion Pedido
+
         private void DesplegarMenuPrincipal()
         {
             Console.WriteLine("Menu Principal");
@@ -279,6 +528,29 @@ namespace Proyecto_NoSQL
             Console.WriteLine("2.  Buscar empleado por idEmpleado");
             Console.WriteLine("3.  Buscar empleado por identificación");
             Console.WriteLine("4.  Insertar un empleado");
+            Console.WriteLine("X.  Salir");
+        }
+
+        private void DesplegarMenuVehiculo()
+        {
+            Console.WriteLine("Menu Vehiculo");
+            Console.WriteLine("1.  Listar todos los vehiculos");
+            Console.WriteLine("2.  Buscar vehiculo por idVehiculo");
+            Console.WriteLine("3.  Buscar vehiculos por fecha de ingreso");
+            Console.WriteLine("4.  Buscar vehiculos por marca");
+            Console.WriteLine("5.  Buscar vehiculos por año");
+            Console.WriteLine("6.  Insertar un vehiculo");
+            Console.WriteLine("X.  Salir");
+        }
+
+        private void DesplegarMenuPedido()
+        {
+            Console.WriteLine("Menu Pedido");
+            Console.WriteLine("1.  Listar todos los pedidos");
+            Console.WriteLine("2.  Buscar pedido por idPedido");
+            Console.WriteLine("3.  Buscar pedido por fecha de inicio");
+            Console.WriteLine("4.  GroupByEmpleado");
+            Console.WriteLine("5.  Insertar un pedido");
             Console.WriteLine("X.  Salir");
         }
 

@@ -46,7 +46,9 @@
   <ItemGroup>
     <Compile Include="Objects\Cliente.cs" />
     <Compile Include="Objects\Empleado.cs" />
+    <Compile Include="Objects\Modelo.cs" />
     <Compile Include="Objects\Pedido.cs" />
+    <Compile Include="Objects\Vehiculo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

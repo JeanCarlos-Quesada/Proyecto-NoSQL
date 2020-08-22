@@ -46,7 +46,7 @@ namespace DAL
             }
             catch
             {
-                return null;
+                return new List<Cliente>();
             }
         }
 
@@ -61,7 +61,7 @@ namespace DAL
             }
             catch
             {
-                return null;
+                return new List<Cliente>();
             }
         }
 
@@ -73,7 +73,7 @@ namespace DAL
             }
             catch
             {
-                return null;
+                return new List<Cliente>();
             }
         }
     }
