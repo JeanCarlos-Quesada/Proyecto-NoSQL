@@ -12,8 +12,7 @@ namespace Proyecto_NoSQL
     {
         static void Main(string[] args)
         {
-            ConnectionPedido connectionPedido = new ConnectionPedido();
-            connectionPedido.GroupByEmpleado();
+            Worker worker = new Worker();
         }
     }
 }

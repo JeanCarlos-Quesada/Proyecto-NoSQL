@@ -17,13 +17,15 @@ namespace DAL
         public ConnectionEmpleado()
         {
             dataBase = client.GetDatabase("VEPA");
-            collectionEmpleado = dataBase.GetCollection<Empleado>("Empleado");
+            collectionEmpleado = dataBase.GetCollection<Empleado>("empleado");
         }
 
         public Boolean insertEmpleado(Empleado newEmpleado)
         {
             try
             {
+                var ultimoId = GetAll().LastOrDefault().idEmpleado;
+                newEmpleado.idEmpleado = ultimoId + 1;
                 collectionEmpleado.InsertOne(newEmpleado);
                 return true;
             }
@@ -33,11 +35,14 @@ namespace DAL
             }
         }
 
-        public Empleado GetByIdentificacion(String identificacion)
+        public List<Empleado> GetByIdentificacion(String identificacion)
         {
             try
             {
-                return collectionEmpleado.Find(s => s.identificacion == identificacion).FirstOrDefault();
+                var tmp = collectionEmpleado.Find(s => s.identificacion == identificacion).FirstOrDefault();
+                List<Empleado> empleados = new List<Empleado>();
+                empleados.Add(tmp);
+                return empleados;
             }
             catch
             {
@@ -49,7 +54,10 @@ namespace DAL
         {
             try
             {
-                return collectionEmpleado.Find(s => s.idEmpleado == id).ToList();
+                var tmp = collectionEmpleado.Find(s => s.idEmpleado == id).FirstOrDefault();
+                List<Empleado> empleados = new List<Empleado>();
+                empleados.Add(tmp);
+                return empleados;
             }
             catch
             {

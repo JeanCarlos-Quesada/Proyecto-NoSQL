@@ -24,6 +24,8 @@ namespace DAL
         {
             try
             {
+                var ultimoId = GetAll().LastOrDefault().idCliente;
+                newCliente.idCliente = ultimoId + 1;
                 collectionCliente.InsertOne(newCliente);
                 return true;
             }
@@ -33,11 +35,14 @@ namespace DAL
             }
         }
 
-        public Cliente GetByIdentificacion(String identificacion)
+        public List<Cliente> GetByIdentificacion(String identificacion)
         {
             try
             {
-                return collectionCliente.Find(s => s.identificacion == identificacion).FirstOrDefault();
+                var tmp = collectionCliente.Find(s => s.identificacion == identificacion).FirstOrDefault();
+                List<Cliente> clientes = new List<Cliente>();
+                clientes.Add(tmp);
+                return clientes;
             }
             catch
             {
@@ -49,7 +54,10 @@ namespace DAL
         {
             try
             {
-                return collectionCliente.Find(s => s.idCliente == id).ToList();
+                var tmp = collectionCliente.Find(s => s.idCliente == id).FirstOrDefault();
+                List<Cliente> clientes = new List<Cliente>();
+                clientes.Add(tmp);
+                return clientes;
             }
             catch
             {
