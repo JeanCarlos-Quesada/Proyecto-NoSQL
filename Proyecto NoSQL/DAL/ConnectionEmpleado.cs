@@ -76,5 +76,21 @@ namespace DAL
                 return new List<Empleado>();
             }
         }
+
+        public Boolean UpdateFechaContratacionEmpleado(long idEmpleado, DateTime newDate)
+        {
+            try
+            {
+                var filter = Builders<Empleado>.Filter.Eq(s => s.idEmpleado, idEmpleado);
+                var update = Builders<Empleado>.Update
+                 .Set(d => d.fechaContratacion, newDate);
+                UpdateResult result = collectionEmpleado.UpdateOne(filter, update);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

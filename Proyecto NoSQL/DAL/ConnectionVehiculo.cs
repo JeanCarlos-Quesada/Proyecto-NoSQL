@@ -94,6 +94,22 @@ namespace DAL
                 return new List<Vehiculo>();
             }
         }
+
+        public Boolean UpdateRegistardoPor(long idVehiculo, Empleado empleado)
+        {
+            try
+            {
+                var filter = Builders<Vehiculo>.Filter.Eq(s => s.idVehiculo, idVehiculo);
+                var update = Builders<Vehiculo>.Update
+                 .Set(d => d.RegistardoPor, empleado);
+                UpdateResult result = collectionVehiculo.UpdateOne(filter, update);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
 

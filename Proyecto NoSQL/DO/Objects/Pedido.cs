@@ -21,7 +21,7 @@ namespace DO.Objects
         [BsonElement("fechaInicio")]
         public DateTime fechaInicio { get; set; }
         [BsonElement("fechaFinalizacion")]
-        public DateTime fechaFinalizacion { get; set; }
+        public DateTime? fechaFinalizacion { get; set; }
         [BsonElement("marcaVehiculo")]
         public String marcaVehiculo { get; set; }
         [BsonElement("modeloVehiculo")]

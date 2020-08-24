@@ -55,6 +55,15 @@ namespace Proyecto_NoSQL
 
                                 InsertCliente(cliente);
                                 break;
+                            case "5":
+                                GetAllClientes();
+                                Console.WriteLine("Digite le ID del cliente:");
+                                idCliente = long.Parse(Console.ReadLine());
+                                GetClienteById(idCliente);
+                                Console.WriteLine("Digite el teléfono del cliente:");
+                                String telefono = Console.ReadLine();
+                                UpdateTelefonoCliente(idCliente, telefono);
+                                break;
                             default:
                                 break;
                         }
@@ -84,7 +93,7 @@ namespace Proyecto_NoSQL
                                 Console.WriteLine("Digite el nombre del empleado:");
                                 empleado.nombre = Console.ReadLine();
                                 Console.WriteLine("Digite el genero del empleado:");
-                                empleado.genero = Console.ReadLine()[0];
+                                empleado.genero = Console.ReadLine()[0]+"";
                                 Console.WriteLine("Digite el teléfono del empleado:");
                                 empleado.telefono = Console.ReadLine();
                                 Console.WriteLine("Digite el email del empleado:");
@@ -92,6 +101,15 @@ namespace Proyecto_NoSQL
                                 empleado.fechaContratacion = DateTime.Now;
 
                                 InsertEmpleado(empleado);
+                                break;
+                            case "5":
+                                GetAllEmpleados();
+                                Console.WriteLine("Digite le ID del empleado:");
+                                idEmpleado = long.Parse(Console.ReadLine());
+                                GetEmpleadoById(idEmpleado);
+                                Console.WriteLine("Digite la nueva fecha (dd/mm/yyyy):");
+                                String fecha = Console.ReadLine();
+                                UpdateFechaContratacionEmpleado(idEmpleado, fecha);
                                 break;
                             default:
                                 break;
@@ -128,6 +146,24 @@ namespace Proyecto_NoSQL
                             case "6":
                                 //Insert
                                 break;
+                            case "7":
+                                GetAllVehiculos();
+                                Console.WriteLine("Digite le ID del vehículo:");
+                                idVehiculo = long.Parse(Console.ReadLine());
+                                GetVehiculoById(idVehiculo);
+                                Empleado empleado = new Empleado();
+                                Console.WriteLine("Digite la identificación del empleado:");
+                                empleado.identificacion = Console.ReadLine();
+                                Console.WriteLine("Digite el nombre del empleado:");
+                                empleado.nombre = Console.ReadLine();
+                                Console.WriteLine("Digite el genero del empleado:");
+                                empleado.genero = Console.ReadLine()[0]+"";
+                                Console.WriteLine("Digite el teléfono del empleado:");
+                                empleado.telefono = Console.ReadLine();
+                                Console.WriteLine("Digite el email del empleado:");
+                                empleado.email = Console.ReadLine();
+                                UpdateRegistardoPor(idVehiculo, empleado);
+                                break;
                             default:
                                 break;
                         }
@@ -156,6 +192,15 @@ namespace Proyecto_NoSQL
                             case "5":
                                 //Insert
                                 break;
+                            case "6":
+                                GetAllPedidos();
+                                Console.WriteLine("Digite le ID del pedido:");
+                                idPedido = long.Parse(Console.ReadLine());
+                                GetPedidoById(idPedido);
+                                Console.WriteLine("Digite el nuevo estado (1/0):");
+                                int estado = Int32.Parse(Console.ReadLine());
+                                UpdateEstadoPedido(idPedido, estado);
+                                break;
                             default:
                                 break;
                         }
@@ -164,6 +209,7 @@ namespace Proyecto_NoSQL
                         break;
                 }
             }
+            
         }
 
         #region cliente
@@ -218,6 +264,20 @@ namespace Proyecto_NoSQL
             else
             {
                 Console.WriteLine("No se logro agregar el cliente");
+            }
+        }
+
+        public void UpdateTelefonoCliente(long idCliente, String telefono)
+        {
+            var logrado = connectionCliente.UpdateTelefonoCliente(idCliente, telefono);
+            if (logrado)
+            {
+                Console.WriteLine("\nEl cliente se actualizo correctamente \n");
+                GetClienteById(idCliente);
+            }
+            else
+            {
+                Console.WriteLine("No se logro actualizar el cliente");
             }
         }
 
@@ -291,6 +351,25 @@ namespace Proyecto_NoSQL
             else
             {
                 Console.WriteLine("No se logro agregar el cliente");
+            }
+        }
+
+        public void UpdateFechaContratacionEmpleado(long idEmpleado, String fecha)
+        {
+            int day = Int32.Parse(fecha[0] + "" + fecha[1]);
+            int month = Int32.Parse(fecha[3] + "" + fecha[4]);
+            int year = Int32.Parse(fecha[6] + "" + fecha[7] + "" + fecha[8] + "" + fecha[9]);
+            DateTime date = new DateTime(year, month, day);
+
+            var logrado = connectionEmpleado.UpdateFechaContratacionEmpleado(idEmpleado, date);
+            if (logrado)
+            {
+                Console.WriteLine("\nEl empleado se actualizo correctamente \n");
+                GetEmpleadoById(idEmpleado);
+            }
+            else
+            {
+                Console.WriteLine("No se logro actualizar el empleado");
             }
         }
 
@@ -379,6 +458,21 @@ namespace Proyecto_NoSQL
             else
             {
                 Console.WriteLine("No se logro agregar el vehículo");
+            }
+        }
+
+        public void UpdateRegistardoPor(long idVehiculo, Empleado empleado)
+        {
+
+            var logrado = connectionVehiculo.UpdateRegistardoPor(idVehiculo, empleado);
+            if (logrado)
+            {
+                Console.WriteLine("\nEl vehículo se actualizo correctamente \n");
+                GetVehiculoById(idVehiculo);
+            }
+            else
+            {
+                Console.WriteLine("No se logro actualizar el vehículo");
             }
         }
 
@@ -481,6 +575,21 @@ namespace Proyecto_NoSQL
             }
         }
 
+        public void UpdateEstadoPedido(long idPedido, int estado)
+        {
+
+            var logrado = connectionPedido.UpdateEstadoPedido(idPedido, estado);
+            if (logrado)
+            {
+                Console.WriteLine("\nEl pedido se actualizo correctamente \n");
+                GetPedidoById(idPedido);
+            }
+            else
+            {
+                Console.WriteLine("No se logro actualizar el pedido");
+            }
+        }
+
         public void imprimirPedido(List<Pedido> pedidos)
         {
             if (pedidos.Count != 0)
@@ -489,7 +598,7 @@ namespace Proyecto_NoSQL
                 {
                     Console.WriteLine(String.Format("ID del pedido: {0}\nIdentificación Cliente: {1}\nIdentificación Empleado: {2}\nFecha de Inicio: {3}\nFecha de Finalización: {4}" +
                         "\nMarca del Vehículo: {5}\nModelo del Vehículo: {6}\nEstado: {7}\n",
-                        pedido.idPedido, pedido.cliente.identificacion, pedido.empleado.identificacion, pedido.fechaInicio.ToString("dd/MM/yyyy"), pedido.fechaFinalizacion.ToString("dd/MM/yyyy"), 
+                        pedido.idPedido, pedido.cliente.identificacion, pedido.empleado.identificacion, pedido.fechaInicio.ToString("dd/MM/yyyy"),( pedido.fechaFinalizacion.HasValue ? pedido.fechaFinalizacion.Value.ToString("dd/MM/yyyy") : "N/A"), 
                         pedido.marcaVehiculo, pedido.modeloVehiculo, pedido.estado));
                 }
             }
@@ -501,6 +610,7 @@ namespace Proyecto_NoSQL
 
         #endregion Pedido
 
+        #region menus
         private void DesplegarMenuPrincipal()
         {
             Console.WriteLine("Menu Principal");
@@ -518,6 +628,7 @@ namespace Proyecto_NoSQL
             Console.WriteLine("2.  Buscar cliente por idCliente");
             Console.WriteLine("3.  Buscar cliente por identificación");
             Console.WriteLine("4.  Insertar un cliente");
+            Console.WriteLine("5.  Actualizar el teléfono de un cliente");
             Console.WriteLine("X.  Salir");
         }
 
@@ -528,6 +639,7 @@ namespace Proyecto_NoSQL
             Console.WriteLine("2.  Buscar empleado por idEmpleado");
             Console.WriteLine("3.  Buscar empleado por identificación");
             Console.WriteLine("4.  Insertar un empleado");
+            Console.WriteLine("5.  Actualizar la fecha de contratación de un empleado");
             Console.WriteLine("X.  Salir");
         }
 
@@ -540,6 +652,7 @@ namespace Proyecto_NoSQL
             Console.WriteLine("4.  Buscar vehiculos por marca");
             Console.WriteLine("5.  Buscar vehiculos por año");
             Console.WriteLine("6.  Insertar un vehiculo");
+            Console.WriteLine("7.  Actualizar registrado por...");
             Console.WriteLine("X.  Salir");
         }
 
@@ -551,8 +664,11 @@ namespace Proyecto_NoSQL
             Console.WriteLine("3.  Buscar pedido por fecha de inicio");
             Console.WriteLine("4.  GroupByEmpleado");
             Console.WriteLine("5.  Insertar un pedido");
+            Console.WriteLine("6.  Actualizar el estado");
             Console.WriteLine("X.  Salir");
         }
+
+        #endregion menus
 
         private string LeaLaOpcion()
         {

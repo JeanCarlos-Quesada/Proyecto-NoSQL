@@ -19,7 +19,7 @@ namespace DO.Objects
         [BsonElement("nombre")]
         public String nombre { get; set; }
         [BsonElement("genero")]
-        public char genero { get; set; }
+        public String genero { get; set; }
         [BsonElement("telefono")]
         public String telefono { get; set; }
         [BsonElement("email")]

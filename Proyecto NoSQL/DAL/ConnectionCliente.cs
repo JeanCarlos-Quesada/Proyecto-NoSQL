@@ -76,5 +76,21 @@ namespace DAL
                 return new List<Cliente>();
             }
         }
+
+        public Boolean UpdateTelefonoCliente(long idCliente, String telefono)
+        {
+            try
+            {
+                var filter = Builders<Cliente>.Filter.Eq(s => s.idCliente, idCliente);
+                var update = Builders<Cliente>.Update
+                 .Set(d => d.telefono, telefono);
+                UpdateResult result = collectionCliente.UpdateOne(filter, update);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

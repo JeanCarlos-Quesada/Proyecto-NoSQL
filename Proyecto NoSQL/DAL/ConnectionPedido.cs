@@ -96,5 +96,29 @@ namespace DAL
                 return new List<String>();
             }
         }
+
+        public Boolean UpdateEstadoPedido(long idPedido, int estado)
+        {
+            try
+            {
+                DateTime? date = DateTime.Now.AddHours(-6);
+                if (estado == 0)
+                {
+                    date = null;
+                }
+                var filter = Builders<Pedido>.Filter.Eq(s => s.idPedido, idPedido);
+                var updateEstado = Builders<Pedido>.Update
+                 .Set(d => d.estado, estado);
+                var updateFechaFinalizacion = Builders<Pedido>.Update
+                 .Set(d => d.fechaFinalizacion, date);
+                UpdateResult result = collectionPedido.UpdateOne(filter, updateEstado);
+                result = collectionPedido.UpdateOne(filter, updateFechaFinalizacion);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
