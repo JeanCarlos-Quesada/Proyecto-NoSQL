@@ -782,7 +782,7 @@ namespace Proyecto_NoSQL
             Console.WriteLine("5.  Buscar vehiculos por año");
             Console.WriteLine("6.  Insertar un vehiculo");
             Console.WriteLine("7.  Actualizar registrado por...");
-            Console.WriteLine("8.  Buscar por defecto aproximado");
+            Console.WriteLine("8.  Buscar por defecto");
             Console.WriteLine("X.  Salir");
         }
 

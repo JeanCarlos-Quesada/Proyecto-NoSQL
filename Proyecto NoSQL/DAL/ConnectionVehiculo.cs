@@ -26,7 +26,8 @@ namespace DAL
             {
                 var ultimoId = GetAll().LastOrDefault().idVehiculo;
                 newVehiculo.idVehiculo = ultimoId + 1;
-                newVehiculo.fechaIngreso = DateTime.Now;
+                DateTime date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                newVehiculo.fechaIngreso = date;
                 collectionVehiculo.InsertOne(newVehiculo);
                 return true;
             }
@@ -52,7 +53,7 @@ namespace DAL
         {
             try
             {
-                return collectionVehiculo.Find(s => s.fechaIngreso == (fechaIngreso.AddHours(-6))).ToList();
+                return collectionVehiculo.Find(s => s.fechaIngreso == (fechaIngreso)).ToList();
             }
             catch
             {
