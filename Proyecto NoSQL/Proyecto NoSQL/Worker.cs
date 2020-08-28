@@ -200,6 +200,11 @@ namespace Proyecto_NoSQL
                                 empleado.email = Console.ReadLine();
                                 UpdateRegistardoPor(idVehiculo, empleado);
                                 break;
+                            case "8":
+                                Console.WriteLine("Digite el defecto:");
+                                String defecto = Console.ReadLine();
+                                GetByDefecto(defecto);
+                                break;
                             default:
                                 break;
                         }
@@ -537,6 +542,19 @@ namespace Proyecto_NoSQL
             }
         }
 
+        public void GetByDefecto(String defecto)
+        {
+            var vehiculos = connectionVehiculo.GetByDefecto(defecto).OrderBy(s => s.idVehiculo).ToList();
+            if (vehiculos != null)
+            {
+                imprimirVehiculo(vehiculos);
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron vehiculos");
+            }
+        }
+
         public void InsertVehiculo(Vehiculo vehiculo)
         {
             var logrado = connectionVehiculo.insertVehiculo(vehiculo);
@@ -583,7 +601,7 @@ namespace Proyecto_NoSQL
             }
             else
             {
-                Console.WriteLine("No se encontraron empleados");
+                Console.WriteLine("No se encontraron vehículos");
             }
         }
 
@@ -747,6 +765,7 @@ namespace Proyecto_NoSQL
             Console.WriteLine("5.  Buscar vehiculos por año");
             Console.WriteLine("6.  Insertar un vehiculo");
             Console.WriteLine("7.  Actualizar registrado por...");
+            Console.WriteLine("8.  Buscar por defecto aproximado");
             Console.WriteLine("X.  Salir");
         }
 

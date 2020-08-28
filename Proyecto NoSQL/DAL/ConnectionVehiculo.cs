@@ -83,6 +83,18 @@ namespace DAL
             }
         }
 
+        public List<Vehiculo> GetByDefecto(String defecto)
+        {
+            try
+            {
+                return collectionVehiculo.Find(s => s.Defectos.Contains(defecto)).ToList();
+            }
+            catch
+            {
+                return new List<Vehiculo>();
+            }
+        }
+
         public List<Vehiculo> GetAll()
         {
             try
