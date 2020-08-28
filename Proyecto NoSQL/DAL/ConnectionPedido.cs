@@ -25,14 +25,9 @@ namespace DAL
         {
             try
             {
-                var ultimoPedido = GetAll().LastOrDefault();
-                var ultimoId = ultimoPedido.idPedido;
-                var ultimoIdCliente = ultimoPedido.cliente.idCliente;
-                var ultimoIdEmpleado = ultimoPedido.empleado.idEmpleado;
+                var ultimoId = GetAll().LastOrDefault().idPedido;
 
                 newPedido.idPedido = ultimoId + 1;
-                newPedido.cliente.idCliente = ultimoIdCliente + 1;
-                newPedido.empleado.idEmpleado = ultimoIdEmpleado + 1;
                 newPedido.estado = 1;
                 newPedido.fechaInicio = DateTime.Now.AddHours(-6);
                 collectionPedido.InsertOne(newPedido);

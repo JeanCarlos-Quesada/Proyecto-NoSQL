@@ -26,6 +26,7 @@ namespace DAL
             {
                 var ultimoId = GetAll().LastOrDefault().idVehiculo;
                 newVehiculo.idVehiculo = ultimoId + 1;
+                newVehiculo.fechaIngreso = DateTime.Now;
                 collectionVehiculo.InsertOne(newVehiculo);
                 return true;
             }
@@ -107,7 +108,7 @@ namespace DAL
             }
         }
 
-        public Boolean UpdateRegistardoPor(long idVehiculo, Empleado empleado)
+        public Boolean UpdateRegistardoPor(long idVehiculo, RegistradoPor empleado)
         {
             try
             {

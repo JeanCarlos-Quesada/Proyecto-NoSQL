@@ -17,7 +17,7 @@ namespace DO.Objects
         [BsonElement("cliente")]
         public Cliente cliente { get; set; }
         [BsonElement("empleado")]
-        public Empleado empleado { get; set; }
+        public RegistradoPor empleado { get; set; }
         [BsonElement("fechaInicio")]
         public DateTime fechaInicio { get; set; }
         [BsonElement("fechaFinalizacion")]

@@ -136,9 +136,9 @@ namespace Proyecto_NoSQL
                                 GetVehiculoById(idVehiculo);
                                 break;
                             case "3":
-                                Console.WriteLine("Digite la fecha de inicio (dd/mm/yyyy):");
+                                Console.WriteLine("Digite la fecha de ingreso (dd/mm/yyyy):");
                                 String fecha = Console.ReadLine();
-                                GetPedidosByFechaInicio(fecha);
+                                GetVehiculoByFecha(fecha);
                                 break;
                             case "4":
                                 Console.WriteLine("Digite la marca:");
@@ -152,7 +152,7 @@ namespace Proyecto_NoSQL
                                 break;
                             case "6":
                                 Vehiculo vehiculo = new Vehiculo();
-                                Empleado empleado = new Empleado();
+                                RegistradoPor empleado = new RegistradoPor();
                                 Console.Write("Digite su identificación: ");
                                 empleado.identificacion = Console.ReadLine();
                                 Console.Write("Digite su nombre: ");
@@ -187,18 +187,18 @@ namespace Proyecto_NoSQL
                                 Console.WriteLine("Digite le ID del vehículo:");
                                 idVehiculo = long.Parse(Console.ReadLine());
                                 GetVehiculoById(idVehiculo);
-                                empleado = new Empleado();
+                                RegistradoPor registradoPor = new RegistradoPor();
                                 Console.WriteLine("Digite la identificación del empleado:");
-                                empleado.identificacion = Console.ReadLine();
+                                registradoPor.identificacion = Console.ReadLine();
                                 Console.WriteLine("Digite el nombre del empleado:");
-                                empleado.nombre = Console.ReadLine();
+                                registradoPor.nombre = Console.ReadLine();
                                 Console.WriteLine("Digite el genero del empleado:");
-                                empleado.genero = Console.ReadLine()[0]+"";
+                                registradoPor.genero = Console.ReadLine()[0]+"";
                                 Console.WriteLine("Digite el teléfono del empleado:");
-                                empleado.telefono = Console.ReadLine();
+                                registradoPor.telefono = Console.ReadLine();
                                 Console.WriteLine("Digite el email del empleado:");
-                                empleado.email = Console.ReadLine();
-                                UpdateRegistardoPor(idVehiculo, empleado);
+                                registradoPor.email = Console.ReadLine();
+                                UpdateRegistardoPor(idVehiculo, registradoPor);
                                 break;
                             case "8":
                                 Console.WriteLine("Digite el defecto:");
@@ -243,7 +243,7 @@ namespace Proyecto_NoSQL
                                 cliente.email = Console.ReadLine();
                                 pedido.cliente = cliente;
 
-                                Empleado empleado = new Empleado();
+                                RegistradoPor empleado = new RegistradoPor();
                                 Console.Write("Digite su identificación: ");
                                 empleado.identificacion = Console.ReadLine();
                                 Console.Write("Digite su nombre: ");
@@ -542,6 +542,23 @@ namespace Proyecto_NoSQL
             }
         }
 
+        public void GetVehiculoByFecha(String fecha)
+        {
+            int day = Int32.Parse(fecha[0] + "" + fecha[1]);
+            int month = Int32.Parse(fecha[3] + "" + fecha[4]);
+            int year = Int32.Parse(fecha[6] + "" + fecha[7] + "" + fecha[8] + "" + fecha[9]);
+            DateTime date = new DateTime(year, month, day);
+            var vehiculos = connectionVehiculo.GetByFechaIngreso(date).OrderBy(s => s.idVehiculo).ToList();
+            if (vehiculos != null)
+            {
+                imprimirVehiculo(vehiculos);
+            }
+            else
+            {
+                Console.WriteLine("No se encontraron vehiculos");
+            }
+        }
+
         public void GetByDefecto(String defecto)
         {
             var vehiculos = connectionVehiculo.GetByDefecto(defecto).OrderBy(s => s.idVehiculo).ToList();
@@ -572,7 +589,7 @@ namespace Proyecto_NoSQL
             }
         }
 
-        public void UpdateRegistardoPor(long idVehiculo, Empleado empleado)
+        public void UpdateRegistardoPor(long idVehiculo, RegistradoPor empleado)
         {
 
             var logrado = connectionVehiculo.UpdateRegistardoPor(idVehiculo, empleado);

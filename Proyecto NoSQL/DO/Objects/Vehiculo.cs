@@ -17,7 +17,7 @@ namespace DO.Objects
         [BsonElement("fechaIngreso")]
         public DateTime fechaIngreso { get; set; }
         [BsonElement("RegistardoPor")]
-        public Empleado RegistardoPor { get; set; }
+        public RegistradoPor RegistardoPor { get; set; }
         [BsonElement("Modelo")]
         public Modelo Modelo { get; set; }
         [BsonElement("Defectos")]
