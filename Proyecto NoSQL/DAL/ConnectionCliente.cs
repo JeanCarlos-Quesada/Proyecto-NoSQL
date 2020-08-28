@@ -92,5 +92,19 @@ namespace DAL
                 return false;
             }
         }
+
+        public Boolean DeleteCliente(long idCliente)
+        {
+            try
+            {
+                var filter = Builders<Cliente>.Filter.Eq(s => s.idCliente, idCliente);
+                collectionCliente.DeleteOne(filter);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

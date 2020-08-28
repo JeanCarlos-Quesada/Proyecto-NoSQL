@@ -64,6 +64,13 @@ namespace Proyecto_NoSQL
                                 String telefono = Console.ReadLine();
                                 UpdateTelefonoCliente(idCliente, telefono);
                                 break;
+                            case "6":
+                                GetAllClientes();
+                                Console.WriteLine("Digite le ID del cliente:");
+                                idCliente = long.Parse(Console.ReadLine());
+                                DeleteCliente(idCliente);
+                                GetAllClientes();
+                                break;
                             default:
                                 break;
                         }
@@ -144,14 +151,43 @@ namespace Proyecto_NoSQL
                                 GetVehiculoByYear(year);
                                 break;
                             case "6":
-                                //Insert
+                                Vehiculo vehiculo = new Vehiculo();
+                                Empleado empleado = new Empleado();
+                                Console.Write("Digite su identificación: ");
+                                empleado.identificacion = Console.ReadLine();
+                                Console.Write("Digite su nombre: ");
+                                empleado.nombre = Console.ReadLine();
+                                Console.Write("Digite el genero del empleado: ");
+                                empleado.genero = Console.ReadLine()[0].ToString();
+                                Console.Write("Digite su telefono: ");
+                                empleado.telefono = Console.ReadLine();
+                                Console.Write("Digite el correo: ");
+                                empleado.email = Console.ReadLine();
+                                vehiculo.RegistardoPor = empleado;
+
+                                Modelo modelo = new Modelo();
+                                Console.Write("Digite la Marca del vehiculo: ");
+                                modelo.marcaVehiculo = Console.ReadLine();
+                                Console.Write("Digite el modelo del vehiculo: ");
+                                modelo.modeloVehiculo = Console.ReadLine();
+                                Console.Write("Digite el año del vehiculo: ");
+                                modelo.yearModelo = Console.ReadLine();
+                                vehiculo.Modelo = modelo;
+
+                                List<String> defectos = new List<string>();
+                                Console.Write("Digite el defecto 1: ");
+                                defectos.Add(Console.ReadLine());
+                                Console.Write("Digite el defecto 2: ");
+                                defectos.Add(Console.ReadLine());
+                                vehiculo.Defectos = defectos;
+                                InsertVehiculo(vehiculo);
                                 break;
                             case "7":
                                 GetAllVehiculos();
                                 Console.WriteLine("Digite le ID del vehículo:");
                                 idVehiculo = long.Parse(Console.ReadLine());
                                 GetVehiculoById(idVehiculo);
-                                Empleado empleado = new Empleado();
+                                empleado = new Empleado();
                                 Console.WriteLine("Digite la identificación del empleado:");
                                 empleado.identificacion = Console.ReadLine();
                                 Console.WriteLine("Digite el nombre del empleado:");
@@ -190,7 +226,51 @@ namespace Proyecto_NoSQL
                                 GroupByEmpleado();
                                 break;
                             case "5":
-                                //Insert
+                                Pedido pedido = new Pedido();
+                                Cliente cliente = new Cliente();
+                                Console.WriteLine("Digite la identificación del cliente:");
+                                cliente.identificacion = Console.ReadLine();
+                                Console.WriteLine("Digite el nombre del cliente:");
+                                cliente.nombre = Console.ReadLine();
+                                Console.WriteLine("Digite el teléfono del cliente:");
+                                cliente.telefono = Console.ReadLine();
+                                Console.WriteLine("Digite el email del cliente:");
+                                cliente.email = Console.ReadLine();
+                                pedido.cliente = cliente;
+
+                                Empleado empleado = new Empleado();
+                                Console.Write("Digite su identificación: ");
+                                empleado.identificacion = Console.ReadLine();
+                                Console.Write("Digite su nombre: ");
+                                empleado.nombre = Console.ReadLine();
+                                Console.Write("Digite el genero del empleado: ");
+                                empleado.genero = Console.ReadLine()[0].ToString();
+                                Console.Write("Digite su telefono: ");
+                                empleado.telefono = Console.ReadLine();
+                                Console.Write("Digite el correo: ");
+                                empleado.email = Console.ReadLine();
+                                pedido.empleado = empleado;
+
+                                Console.Write("Digite la marca del vehículo: ");
+                                pedido.marcaVehiculo = Console.ReadLine();
+                                Console.Write("Digite la modelo del vehículo: ");
+                                pedido.modeloVehiculo = Console.ReadLine();
+                                Console.Write("Digite el año del vehículo: ");
+                                pedido.yearModelo = Console.ReadLine();
+                                Console.Write("Digite la transimisión del vehículo: ");
+                                pedido.transimision = Console.ReadLine();
+                                Console.Write("Digite el cilindraje del vehículo: ");
+                                pedido.cilindraje = Console.ReadLine();
+                                Console.Write("Digite el tipo de Combutible del vehículo: ");
+                                pedido.tipoCombutible = Console.ReadLine();
+                                Console.Write("Digite la tracción del vehículo: ");
+                                pedido.traccion = Console.ReadLine();
+                                Console.Write("Digite el color del vehículo: ");
+                                pedido.color = Console.ReadLine();
+                                Console.Write("Digite el detalle del vehículo: ");
+                                pedido.detalle = Console.ReadLine();
+
+                                InsertPedido(pedido);
                                 break;
                             case "6":
                                 GetAllPedidos();
@@ -274,6 +354,19 @@ namespace Proyecto_NoSQL
             {
                 Console.WriteLine("\nEl cliente se actualizo correctamente \n");
                 GetClienteById(idCliente);
+            }
+            else
+            {
+                Console.WriteLine("No se logro actualizar el cliente");
+            }
+        }
+
+        public void DeleteCliente(long idCliente)
+        {
+            var logrado = connectionCliente.DeleteCliente(idCliente);
+            if (logrado)
+            {
+                Console.WriteLine("\nEl cliente se elimino correctamente \n");
             }
             else
             {
@@ -629,6 +722,7 @@ namespace Proyecto_NoSQL
             Console.WriteLine("3.  Buscar cliente por identificación");
             Console.WriteLine("4.  Insertar un cliente");
             Console.WriteLine("5.  Actualizar el teléfono de un cliente");
+            Console.WriteLine("6.  Eliminar un cliente");
             Console.WriteLine("X.  Salir");
         }
 
