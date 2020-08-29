@@ -244,15 +244,15 @@ namespace Proyecto_NoSQL
                                 pedido.cliente = cliente;
 
                                 RegistradoPor empleado = new RegistradoPor();
-                                Console.Write("Digite su identificación: ");
+                                Console.Write("Digite la identificación del empleado: ");
                                 empleado.identificacion = Console.ReadLine();
-                                Console.Write("Digite su nombre: ");
+                                Console.Write("Digite el nombre del empleado: ");
                                 empleado.nombre = Console.ReadLine();
                                 Console.Write("Digite el genero del empleado: ");
                                 empleado.genero = Console.ReadLine()[0].ToString();
-                                Console.Write("Digite su telefono: ");
+                                Console.Write("Digite el telefono del empleado: ");
                                 empleado.telefono = Console.ReadLine();
-                                Console.Write("Digite el correo: ");
+                                Console.Write("Digite el correo del empleado: ");
                                 empleado.email = Console.ReadLine();
                                 pedido.empleado = empleado;
 
